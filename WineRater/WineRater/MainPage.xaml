@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:WineRater;assembly=WineRater"
+             x:Class="WineRater.MainPage"
+             BackgroundColor="#75410C">
+  <ContentPage.Resources>
+    <Color x:Key="NormalButtonBg">#FF8800</Color>
+    <Color x:Key="NormalButtonText">#54330F</Color>
+    <Style TargetType="Button" x:Key="MainPanelButton">
+      <Setter Property="BackgroundColor" Value="{StaticResource NormalButtonBg}"/>
+      <Setter Property="TextColor" Value="{StaticResource NormalButtonText}"/>
+    </Style>
+  </ContentPage.Resources>
+  <StackLayout>
+    <Image Source="{local:ImageResource 'WineRater.Resources.mainpagebottleandglassimage.png'}" 
+           WidthRequest="300" HeightRequest="400"/>
+    <Button x:Name="ExamineWineButton" Style="{StaticResource MainPanelButton}"
+            Text="Examine Wine"/>
+    <Button x:Name="ReviewedWineButton" Style="{StaticResource MainPanelButton}"
+            Text="Reviewed"/>
+    <Button x:Name="PendingWineButton" Style="{StaticResource MainPanelButton}"
+            Text="Pending Reviews"/>
+    <Button x:Name="YourProfileButton" Style="{StaticResource MainPanelButton}"
+            Text="Your Profile"/>
+    <Button x:Name="FriendsButton" Style="{StaticResource MainPanelButton}"
+            Text="Friends" IsVisible="False"/>
+  </StackLayout>
+
+</ContentPage>
