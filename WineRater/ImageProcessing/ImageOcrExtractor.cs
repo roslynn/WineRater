@@ -45,7 +45,16 @@ namespace ImageProcessing
               Enum.TryParse<PageSegMode>(mode, out var modeEnum);
               using (var page = _engine.Process(img, modeEnum))
               {
-                AddEntry(modeEnum, page.GetText());
+                try
+                {
+                  _processedText.Add(page.PageSegmentMode, page.GetText());
+                  //var mean = page.GetMeanConfidence();
+                }
+                catch (Exception e)
+                {
+                  _processedText.Add(page.PageSegmentMode, "<error>");
+                  continue;
+                }
               }
             }
           }
@@ -53,7 +62,15 @@ namespace ImageProcessing
           {
             using (var page = _engine.Process(img))
             {
-              AddEntry(page.PageSegmentMode, page.GetText());
+              try
+              {
+                _processedText.Add(page.PageSegmentMode, page.GetText());
+                //var mean = page.GetMeanConfidence();
+              }
+              catch (Exception e)
+              {
+                _processedText.Add(page.PageSegmentMode, "<error>");
+              }
             }
           }
         }
@@ -69,15 +86,7 @@ namespace ImageProcessing
 
     private void AddEntry(PageSegMode segMode, string text)
     {
-      try
-      {
-        _processedText.Add(segMode, text);
-        //var mean = page.GetMeanConfidence();
-      }
-      catch (Exception e)
-      {
-        _processedText.Add(segMode, "<error>");        
-      }
+
     }
 
     public void Dispose()
