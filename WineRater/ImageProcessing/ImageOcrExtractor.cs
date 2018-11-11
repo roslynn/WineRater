@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -12,63 +13,47 @@ using Tesseract;
 
 namespace ImageProcessing
 {
-  public class ImageOcrExtractor
+  public class ImageOcrExtractor : IDisposable
   {
     private static readonly string TESDATA_NAME = "tessdata";
+    private bool _debug;
+    private TesseractEngine _engine;
+    private Dictionary<PageSegMode, string> _processedText = new Dictionary<PageSegMode, string>();
 
-    public ImageOcrExtractor()
+    public ImageOcrExtractor(bool debug = false)
     {
+      _debug = debug;
+      _engine = new TesseractEngine(ImageOcrExtractor.GetTestDataPath, "eng", EngineMode.Default);
     }
 
-    public void Process(string testImagePath)
+    private static string GetTestDataPath =>
+      Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(typeof(ImageOcrExtractor)).Location), TESDATA_NAME);
+
+    public Dictionary<PageSegMode, string> Results => _processedText;
+
+
+    public void Process(string imageNameWithExtension)
     {
       try
       {
-        using (var engine = new TesseractEngine(ImageOcrExtractor.GetTestDataPath, "eng", EngineMode.Default))
+        using (Pix img = Pix.LoadFromFile(imageNameWithExtension))
         {
-          using (Pix img = Pix.LoadFromFile(testImagePath))
+          if (_debug)
           {
-            using (var page = engine.Process(img))
+            foreach (var mode in Enum.GetNames(typeof(PageSegMode)))
             {
-              var text = page.GetText();
-              Console.WriteLine("Mean confidence: {0}", page.GetMeanConfidence());
-
-              Console.WriteLine("Text (GetText): \r\n{0}", text);
-              Console.WriteLine("Text (iterator):");
-              using (var iter = page.GetIterator())
+              Enum.TryParse<PageSegMode>(mode, out var modeEnum);
+              using (var page = _engine.Process(img, modeEnum))
               {
-                iter.Begin();
-
-                do
-                {
-                  do
-                  {
-                    do
-                    {
-                      do
-                      {
-                        if (iter.IsAtBeginningOf(PageIteratorLevel.Block))
-                        {
-                          Console.WriteLine("<BLOCK>");
-                        }
-
-                        Console.Write(iter.GetText(PageIteratorLevel.Word));
-                        Console.Write(" ");
-
-                        if (iter.IsAtFinalOf(PageIteratorLevel.TextLine, PageIteratorLevel.Word))
-                        {
-                          Console.WriteLine();
-                        }
-                      } while (iter.Next(PageIteratorLevel.TextLine, PageIteratorLevel.Word));
-
-                      if (iter.IsAtFinalOf(PageIteratorLevel.Para, PageIteratorLevel.TextLine))
-                      {
-                        Console.WriteLine();
-                      }
-                    } while (iter.Next(PageIteratorLevel.Para, PageIteratorLevel.TextLine));
-                  } while (iter.Next(PageIteratorLevel.Block, PageIteratorLevel.Para));
-                } while (iter.Next(PageIteratorLevel.Block));
+                AddEntry(modeEnum, page.GetText());
               }
+            }
+          }
+          else
+          {
+            using (var page = _engine.Process(img))
+            {
+              AddEntry(page.PageSegmentMode, page.GetText());
             }
           }
         }
@@ -82,12 +67,32 @@ namespace ImageProcessing
       }
     }
 
-    private static string GetTestDataPath
+    private void AddEntry(PageSegMode segMode, string text)
     {
-      get
+      try
       {
-        return Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(typeof(ImageOcrExtractor)).Location), TESDATA_NAME);
+        _processedText.Add(segMode, text);
+        //var mean = page.GetMeanConfidence();
+      }
+      catch (Exception e)
+      {
+        _processedText.Add(segMode, "<error>");        
       }
     }
+
+    public void Dispose()
+    {
+      Dispose(true);
+      GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+      if (disposing)
+      {
+        _engine.Dispose();
+      }
+    }
+
   }
 }
