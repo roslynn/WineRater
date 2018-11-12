@@ -7,6 +7,8 @@ using Xamarin.Forms.Platform.Android;
 using WineRater;
 using WineRater.Droid;
 using Camera = Android.Hardware.Camera;
+using System.IO;
+using System.Collections.Generic;
 
 ///<summary>
 /// Concept inspired by Antonio Feregrino from the post 
@@ -54,12 +56,14 @@ namespace WineRater.Droid
 
       AddView(_mainLayout);
     }
+
     private void SetupEventHandlers()
     {
       _capturePhotoButton.Click += async (sender, e) =>
       {
         var bytes = await TakePhotoAsync();
         (Element as ExamineWinePage).SetPhotoResult(bytes, _liveView.Bitmap.Width, _liveView.Bitmap.Height);
+        SaveOnDisk("tempImg", bytes);
       };
       _liveView.SurfaceTextureListener = this;
     }
@@ -173,7 +177,7 @@ namespace WineRater.Droid
       byte[] imageBytes = null;
       using (var imageStream = new System.IO.MemoryStream())
       {
-        await image.CompressAsync(Bitmap.CompressFormat.Jpeg, 50, imageStream);
+        await image.CompressAsync(Bitmap.CompressFormat.Png, 50, imageStream);
         image.Recycle();
         imageBytes = imageStream.ToArray();
       }
@@ -181,5 +185,30 @@ namespace WineRater.Droid
       return imageBytes;
     }
 
+
+    private void SaveOnDisk(string filename, byte[] imageData)
+    {
+      var dir = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryPictures);
+      var pictures = System.IO.Path.Combine(dir.AbsolutePath, "WineRater");
+
+      //adding a time stamp time file name to allow saving more than one image... otherwise it overwrites the previous saved image of the same name  
+      string name = filename + System.DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".png";
+      string filePath = System.IO.Path.Combine(pictures, name);
+      try
+      {
+        if (!Directory.Exists(pictures))
+          Directory.CreateDirectory(pictures);
+
+        System.IO.File.WriteAllBytes(filePath, imageData);
+        //mediascan adds the saved image into the gallery  
+        //var mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
+        //mediaScanIntent.SetData(Uri.FromFile(new File(filePath)));
+        //Xamarin.Forms.Forms.Context.SendBroadcast(mediaScanIntent);
+      }
+      catch (System.Exception e)
+      {
+        System.Console.WriteLine(e.ToString());
+      }
+    }
   }
 }

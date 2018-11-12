@@ -84,10 +84,6 @@ namespace ImageProcessing
       }
     }
 
-    private void AddEntry(PageSegMode segMode, string text)
-    {
-
-    }
 
     public void Dispose()
     {

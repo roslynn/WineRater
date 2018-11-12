@@ -32,15 +32,17 @@ namespace WineRater.Droid
 
     private void Initialize()
     {
-      CheckCameraPermissions();
+      CheckPermissions();
     }
 
-    private void CheckCameraPermissions()
+    private void CheckPermissions()
     {
       var cameraPermission = Manifest.Permission.Camera;
-      if (ActivityCompat.CheckSelfPermission(this, cameraPermission) == Permission.Denied)
+      var writeStorage = Manifest.Permission.WriteExternalStorage;
+      if (ActivityCompat.CheckSelfPermission(this, cameraPermission) == Permission.Denied ||
+       ActivityCompat.CheckSelfPermission(this, cameraPermission) == Permission.Denied)
       {
-        ActivityCompat.RequestPermissions(this, new[] { cameraPermission }, 1);
+        ActivityCompat.RequestPermissions(this, new[] { cameraPermission, writeStorage }, 1);
       }
     }
 
