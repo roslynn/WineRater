@@ -31,6 +31,10 @@ namespace ImageProcessing
 
     public Dictionary<PageSegMode, string> Results => _processedText;
 
+    //todo: once all experimenting with debugging the engine is finished 
+    // that should be the main property to populate (not _processedText)
+    public string Text => _processedText[PageSegMode.Auto];
+
 
     public void Process(string imageNameWithExtension)
     {
@@ -38,41 +42,7 @@ namespace ImageProcessing
       {
         using (Pix img = Pix.LoadFromFile(imageNameWithExtension))
         {
-          if (_debug)
-          {
-            foreach (var mode in Enum.GetNames(typeof(PageSegMode)))
-            {
-              Enum.TryParse<PageSegMode>(mode, out var modeEnum);
-              using (var page = _engine.Process(img, modeEnum))
-              {
-                try
-                {
-                  _processedText.Add(page.PageSegmentMode, page.GetText());
-                  //var mean = page.GetMeanConfidence();
-                }
-                catch (Exception e)
-                {
-                  _processedText.Add(page.PageSegmentMode, "<error>");
-                  continue;
-                }
-              }
-            }
-          }
-          else
-          {
-            using (var page = _engine.Process(img))
-            {
-              try
-              {
-                _processedText.Add(page.PageSegmentMode, page.GetText());
-                //var mean = page.GetMeanConfidence();
-              }
-              catch (Exception e)
-              {
-                _processedText.Add(page.PageSegmentMode, "<error>");
-              }
-            }
-          }
+          DoProcess(img);
         }
       }
       catch (Exception e)
@@ -84,6 +54,62 @@ namespace ImageProcessing
       }
     }
 
+    public void Process(byte[] rawImage)
+    {
+      try
+      {
+        using (Pix img = Pix.LoadTiffFromMemory(rawImage))
+        {
+          DoProcess(img);
+        }
+      }
+      catch (Exception e)
+      {
+        Trace.TraceError(e.ToString());
+        Console.WriteLine("Unexpected Error: " + e.Message);
+        Console.WriteLine("Details: ");
+        Console.WriteLine(e.ToString());
+      }
+    }
+
+    private void DoProcess(Pix img)
+    {
+      if (_debug)
+      {
+        foreach (var mode in Enum.GetNames(typeof(PageSegMode)))
+        {
+          Enum.TryParse<PageSegMode>(mode, out var modeEnum);
+          using (var page = _engine.Process(img, modeEnum))
+          {
+            try
+            {
+              _processedText.Add(page.PageSegmentMode, page.GetText());
+              //var mean = page.GetMeanConfidence();
+            }
+            catch (Exception e)
+            {
+              _processedText.Add(page.PageSegmentMode, "<error>");
+              continue;
+            }
+          }
+        }
+      }
+      else
+      {
+        using (var page = _engine.Process(img, PageSegMode.Auto))
+        {
+          try
+          {
+            _processedText.Add(page.PageSegmentMode, page.GetText());
+            //var mean = page.GetMeanConfidence();
+          }
+          catch (Exception e)
+          {
+            _processedText.Add(page.PageSegmentMode, "<error>");
+          }
+        }
+      }
+    }
 
     public void Dispose()
     {

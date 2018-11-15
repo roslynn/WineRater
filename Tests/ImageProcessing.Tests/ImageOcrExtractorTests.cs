@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Drawing;
 using System.IO;
 
 namespace ImageProcessing.Tests
@@ -7,7 +8,7 @@ namespace ImageProcessing.Tests
   public class ImageOcrExtractorTests
   {
     [TestMethod]
-    public void ProcessExampleFromSourceTest()
+    public void ProcessExampleFromSourceFilePathTest()
     {
       var picName = "phototest.tif";
       var testImagePath = Path.Combine(Directory.GetCurrentDirectory(), $@"Resources\{picName}");
@@ -15,6 +16,25 @@ namespace ImageProcessing.Tests
 
       var processor = new ImageOcrExtractor(true);
       processor.Process(picName);
+    }
+
+    [TestMethod]
+    public void ProcessExampleFromSourceByteArrayTest()
+    {
+      var picName = "phototest.tif";
+      var testImagePath = Path.Combine(Directory.GetCurrentDirectory(), picName);
+      Assert.IsTrue(Directory.Exists(Path.GetDirectoryName(testImagePath)));
+
+      using (var bitmap = Image.FromFile(testImagePath))
+      {
+        using (MemoryStream ms = new MemoryStream())
+        {
+          bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Tiff);
+          var byteImage = ms.ToArray();
+          var processor = new ImageOcrExtractor(true);
+          processor.Process(byteImage);
+        }
+      }
     }
 
     [TestMethod]
