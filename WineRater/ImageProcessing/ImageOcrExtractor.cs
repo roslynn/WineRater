@@ -5,6 +5,11 @@ using Tesseract;
 
 namespace ImageProcessing
 {
+  /// <summary>
+  /// Uses Xamarin.Tesseract nuget which comes from
+  /// https://github.com/halkar/Tesseract.Xamarin
+  /// under MIT license
+  /// </summary>
   public class ImageOcrExtractor : IDisposable
   {
     private static readonly string TESDATA_NAME = "tessdata";
