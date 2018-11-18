@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
+﻿using Ninject;
+using System;
+using System.Threading.Tasks;
 using Tesseract;
-
-/// <summary>
-/// Example taken from https://github.com/charlesw/tesseract-samples/tree/master/src/Tesseract.ConsoleDemo
-/// charlesw/tesseract-samples is licensed under the
-/// Apache License 2.0
-/// </summary>
 
 namespace ImageProcessing
 {
@@ -17,97 +9,53 @@ namespace ImageProcessing
   {
     private static readonly string TESDATA_NAME = "tessdata";
     private bool _debug;
-    private TesseractEngine _engine;
-    private Dictionary<PageSegMode, string> _processedText = new Dictionary<PageSegMode, string>();
+    private ITesseractApi _engine;
 
-    public ImageOcrExtractor(bool debug = false)
+    public ImageOcrExtractor(IKernel ioC)
     {
-      _debug = debug;
-      _engine = new TesseractEngine(ImageOcrExtractor.GetTestDataPath, "eng", EngineMode.Default);
+      var engine = ioC.Get<ITesseractApi>();
+      if (engine == null)
+        throw new ArgumentException($"Parameter {engine} is null");
+
+      _engine = engine;
     }
 
-    private static string GetTestDataPath =>
-      Path.Combine(Path.GetDirectoryName(Assembly.GetAssembly(typeof(ImageOcrExtractor)).Location), TESDATA_NAME);
-
-    public Dictionary<PageSegMode, string> Results => _processedText;
-
-    //todo: once all experimenting with debugging the engine is finished 
-    // that should be the main property to populate (not _processedText)
-    public string Text => _processedText[PageSegMode.Auto];
-
-
-    public void Process(string imageNameWithExtension)
+    public async Task<bool> Init()
     {
       try
       {
-        using (Pix img = Pix.LoadFromFile(imageNameWithExtension))
-        {
-          DoProcess(img);
-        }
+        bool initialised = await _engine.Init("eng");
+        return initialised;
       }
       catch (Exception e)
       {
-        Trace.TraceError(e.ToString());
-        Console.WriteLine("Unexpected Error: " + e.Message);
-        Console.WriteLine("Details: ");
-        Console.WriteLine(e.ToString());
+        Console.WriteLine("UnexpectedException");
+        Console.WriteLine(e.Message);
+        return false;
       }
     }
 
-    public void Process(byte[] rawImage)
+    public async Task<string> Process(byte[] image)
     {
+      if (!_engine.Initialized)
+        return "Engine not initialized";
+
       try
       {
-        using (Pix img = Pix.LoadTiffFromMemory(rawImage))
+        string textResult = "";
+        bool success = await _engine.SetImage(image);
+        if (success)
         {
-          DoProcess(img);
+          textResult = _engine.Text;
         }
+        Console.WriteLine($"RESULT = {textResult}");
+        return textResult;
       }
       catch (Exception e)
       {
-        Trace.TraceError(e.ToString());
-        Console.WriteLine("Unexpected Error: " + e.Message);
-        Console.WriteLine("Details: ");
-        Console.WriteLine(e.ToString());
-      }
-    }
-
-    private void DoProcess(Pix img)
-    {
-      if (_debug)
-      {
-        foreach (var mode in Enum.GetNames(typeof(PageSegMode)))
-        {
-          Enum.TryParse<PageSegMode>(mode, out var modeEnum);
-          using (var page = _engine.Process(img, modeEnum))
-          {
-            try
-            {
-              _processedText.Add(page.PageSegmentMode, page.GetText());
-              //var mean = page.GetMeanConfidence();
-            }
-            catch (Exception e)
-            {
-              _processedText.Add(page.PageSegmentMode, "<error>");
-              continue;
-            }
-          }
-        }
-      }
-      else
-      {
-        using (var page = _engine.Process(img, PageSegMode.Auto))
-        {
-          try
-          {
-            _processedText.Add(page.PageSegmentMode, page.GetText());
-            //var mean = page.GetMeanConfidence();
-          }
-          catch (Exception e)
-          {
-            _processedText.Add(page.PageSegmentMode, "<error>");
-          }
-        }
+        Console.WriteLine("UnexpectedException");
+        Console.WriteLine(e.Message);
+        return "";
       }
     }
 

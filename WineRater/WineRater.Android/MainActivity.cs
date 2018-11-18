@@ -33,6 +33,7 @@ namespace WineRater.Droid
     private void Initialize()
     {
       CheckPermissions();
+      Bootstrap.Initialize(this.ApplicationContext);
     }
 
     private void CheckPermissions()

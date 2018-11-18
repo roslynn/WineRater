@@ -16,7 +16,17 @@ namespace WineRater
       //todo unhook this in some kind of dispose, if exists
       ExamineWineButton.Clicked += async (sender, args) =>
       {
-        await Navigation.PushAsync(new ExamineWinePage());
+        try
+        {
+          var examinePage = new ExamineWinePage();
+          await examinePage.Init();
+          await Navigation.PushAsync(examinePage);
+        }
+        catch (Exception e)
+        {
+          Console.WriteLine("Examine page initialization went wrong");
+          Console.WriteLine(e.Message);
+        }
       };
     }
 

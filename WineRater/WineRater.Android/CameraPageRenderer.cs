@@ -62,7 +62,7 @@ namespace WineRater.Droid
       _capturePhotoButton.Click += async (sender, e) =>
       {
         var bytes = await TakePhotoAsync();
-        (Element as ExamineWinePage).SetPhotoResult(bytes, _liveView.Bitmap.Width, _liveView.Bitmap.Height);
+        (Element as ExamineWinePage).SetPhotoResultAsync(bytes, _liveView.Bitmap.Width, _liveView.Bitmap.Height);
         SaveOnDisk("tempImg", bytes);
       };
       _liveView.SurfaceTextureListener = this;
