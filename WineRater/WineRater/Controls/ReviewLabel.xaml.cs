@@ -4,14 +4,14 @@ using Xamarin.Forms.Xaml;
 namespace WineRater.Controls
 {
   [XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class ReviewLabel : ContentView
-	{
-		public ReviewLabel ()
-		{
-			InitializeComponent ();
-		}
+  public partial class ReviewLabel : ContentView
+  {
+    public ReviewLabel()
+    {
+      InitializeComponent();
+    }
 
-    public static BindableProperty LabelContentProperty = BindableProperty.Create(
+    public static readonly BindableProperty LabelContentProperty = BindableProperty.Create(
       propertyName: "LabelContent",
       returnType: typeof(string),
       declaringType: typeof(ReviewLabel),
@@ -21,22 +21,14 @@ namespace WineRater.Controls
 
     public string LabelContent
     {
-      // ----- The toggle value of the internal Switch control.
-      get
-      {
-        return (string)base.GetValue(LabelContentProperty);
-      }
-      set
-      {
-        if (this.LabelContent != value)
-        {
-          base.SetValue(LabelContentProperty, value);
-        }
-      }
+      get { return (string)base.GetValue(LabelContentProperty); }
+      set { base.SetValue(LabelContentProperty, value); }
     }
 
     private static void HandleLabelContentPropertyChanged(BindableObject bindable, object oldValue, object newValue)
     {
+      var control = (ReviewLabel)bindable;
+      control.ReviewText.Text = newValue.ToString();
     }
   }
 }

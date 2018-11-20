@@ -13,6 +13,8 @@ namespace WineRater
       CheckResourcesFound();
 #endif
       InitializeComponent();
+      NavigationPage.SetHasBackButton(this, false);
+      NavigationPage.SetHasNavigationBar(this, false);
 
       //todo unhook this in some kind of dispose, if exists
       ExamineWineButton.Clicked += async (sender, args) =>

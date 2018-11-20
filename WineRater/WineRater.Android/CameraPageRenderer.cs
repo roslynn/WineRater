@@ -171,7 +171,7 @@ namespace WineRater.Droid
         image.Recycle();
         imageBytes = imageStream.ToArray();
       }
-      //_camera.StartPreview();
+      _camera.StartPreview();
       return imageBytes;
     }
 

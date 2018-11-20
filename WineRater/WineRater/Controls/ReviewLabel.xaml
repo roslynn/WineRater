@@ -3,13 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WineRater.Controls.ReviewLabel">
   <ContentView.Content>
-    <Grid>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="7*"/>
-        <ColumnDefinition Width="3*"/>
-      </Grid.ColumnDefinitions>
-      <Label Grid.Column="0" Text="{Binding LabelContent}" />
-      <Label Grid.Column="1" Text="Review Control"/>
-    </Grid>
+    <Frame BorderColor="Gray">
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="7*"/>
+          <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" x:Name="ReviewText"
+               Text="{Binding LabelContent, Mode=TwoWay}"/>
+        <Label Grid.Column="1" Text="Review Control"/>
+      </Grid>
+    </Frame>
   </ContentView.Content>
 </ContentView>
