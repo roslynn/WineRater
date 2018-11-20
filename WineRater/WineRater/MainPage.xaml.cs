@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Xamarin.Forms;
+using WineRater.Examine;
 
 namespace WineRater
 {

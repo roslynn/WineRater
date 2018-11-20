@@ -1,42 +1,20 @@
 ﻿using ImageProcessing;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace WineRater
+namespace WineRater.Examine
 {
-  public class PhotoResultEventArgs : EventArgs
-  {
-    public PhotoResultEventArgs()
-    {
-      Success = false;
-    }
-
-    public PhotoResultEventArgs(byte[] image, int width, int height)
-    {
-      Success = true;
-      Image = image;
-      Width = width;
-      Height = height;
-    }
-
-    public byte[] Image { get; private set; }
-    public int Width { get; private set; }
-    public int Height { get; private set; }
-    public bool Success { get; private set; }
-  }
-
-  public partial class ExamineWinePage : ContentPage
+  /// <summary>
+  /// This page has its own platform specific view because it requires the camera
+  /// Droid: CameraPageRenderer
+  /// </summary>
+  public class ExamineWinePage : ContentPage
   {
     private ImageOcrExtractor _imageProcessor;
 
-    public delegate void PhotoResultEventHandler(PhotoResultEventArgs result);
-    public event PhotoResultEventHandler OnPhotoResult;
-
     public ExamineWinePage()
     {
-      InitializeComponent();
       _imageProcessor = new ImageOcrExtractor(Bootstrap.IoC);
     }
 
@@ -55,13 +33,10 @@ namespace WineRater
 
     public async void SetPhotoResultAsync(byte[] image, int width = -1, int height = -1)
     {
-      WinePicture.Source = ImageSource.FromStream(() => new MemoryStream(image));
-      OnPhotoResult?.Invoke(new PhotoResultEventArgs(image, width, height));
-
       try
       {
         var message = await ProcessImageAnalysisAsync(image);
-        ReviewLabel.LabelContent = message;
+        await Navigation.PushAsync(new CapturedWinePage(image, message));
       }
       catch (Exception e)
       {
@@ -81,11 +56,6 @@ namespace WineRater
         Console.WriteLine(e.Message);
         return "?? Exception ??";
       }
-    }
-
-    public void Cancel()
-    {
-      OnPhotoResult?.Invoke(new PhotoResultEventArgs());
     }
 
   }

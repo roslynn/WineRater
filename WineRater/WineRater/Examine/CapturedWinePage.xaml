@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:WineRater.Controls"
+             x:Class="WineRater.Examine.CapturedWinePage">
+  <ContentPage.Content>
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="7*"/>
+        <RowDefinition Height="2*"/>
+        <RowDefinition Height="1*"/>
+      </Grid.RowDefinitions>
+      <Image Grid.Row="0" x:Name="WinePicture"/>
+      <controls:ReviewLabel Grid.Row="1" x:Name="ReviewLabel"/>
+      <Grid Grid.Row="2">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="1*"/>
+          <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="0" x:Name="ReviewBtn" 
+                Text="Review"
+                Clicked="ReviewButtonClicked"/>
+        <Button Grid.Column="1" x:Name="SaveBtn" 
+                Text="Save"
+                Clicked="SaveButtonClicked"/>
+      </Grid>
+    </Grid>
+  </ContentPage.Content>
+</ContentPage>

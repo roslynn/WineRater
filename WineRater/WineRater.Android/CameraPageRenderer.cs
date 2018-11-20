@@ -4,11 +4,10 @@ using Android.Widget;
 using System.Linq;
 using System;
 using Xamarin.Forms.Platform.Android;
-using WineRater;
+using WineRater.Examine;
 using WineRater.Droid;
 using Camera = Android.Hardware.Camera;
 using System.IO;
-using System.Collections.Generic;
 
 ///<summary>
 /// Concept inspired by Antonio Feregrino from the post 
@@ -83,15 +82,6 @@ namespace WineRater.Droid
       _capturePhotoButton.SetY(_mainLayout.Height - _capturePhotoButton.Height - 200/*offset*/);
     }
 
-    public override bool OnKeyDown(Keycode keyCode, KeyEvent e)
-    {
-      if (keyCode == Keycode.Back)
-      {
-        (Element as ExamineWinePage).Cancel();
-        return false;
-      }
-      return base.OnKeyDown(keyCode, e);
-    }
 
     public bool OnSurfaceTextureDestroyed(SurfaceTexture surface)
     {
@@ -181,7 +171,7 @@ namespace WineRater.Droid
         image.Recycle();
         imageBytes = imageStream.ToArray();
       }
-      _camera.StartPreview();
+      //_camera.StartPreview();
       return imageBytes;
     }
 

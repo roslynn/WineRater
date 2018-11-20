@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Remove="Examine\ExamineWinePage.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\MainPageBottleAndGlassImage.png" />
   </ItemGroup>
 
@@ -30,7 +34,13 @@
     <EmbeddedResource Update="Controls\ReviewLabel.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="ExamineWinePage.xaml">
+    <EmbeddedResource Update="Examine\CapturedWinePage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Examine\ReviewPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Examine\SavePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>
