@@ -17,10 +17,10 @@
           <ColumnDefinition Width="1*"/>
           <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <Button Grid.Column="0" x:Name="ReviewBtn" 
+        <Button Grid.Column="0" x:Name="ReviewBtn" Style="{StaticResource SimpleButton}"
                 Text="Review"
                 Clicked="ReviewButtonClicked"/>
-        <Button Grid.Column="1" x:Name="SaveBtn" 
+        <Button Grid.Column="1" x:Name="SaveBtn" Style="{StaticResource SimpleButton}"
                 Text="Save"
                 Clicked="SaveButtonClicked"/>
       </Grid>
