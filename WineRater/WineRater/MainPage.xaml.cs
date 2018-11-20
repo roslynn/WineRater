@@ -22,6 +22,8 @@ namespace WineRater
           var examinePage = new ExamineWinePage();
           await examinePage.Init();
           await Navigation.PushAsync(examinePage);
+          NavigationPage.SetHasBackButton(examinePage, false);
+          NavigationPage.SetHasNavigationBar(examinePage, false);
         }
         catch (Exception e)
         {
