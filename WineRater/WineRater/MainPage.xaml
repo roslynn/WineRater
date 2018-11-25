@@ -4,19 +4,36 @@
              xmlns:local="clr-namespace:WineRater;assembly=WineRater"
              x:Class="WineRater.MainPage"
              BackgroundColor="{StaticResource MainPageBackground}">
-  <StackLayout>
-    <Image Source="{local:ImageResource 'WineRater.Resources.mainpagebottleandglassimage.png'}" 
+ 
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <Image Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="5"
+           Source="{local:ImageResource 'WineRater.Resources.mainpagebottleandglassimage.png'}" 
            WidthRequest="300" HeightRequest="400" Margin="0,50,0,0"/>
-    <Button x:Name="ExamineWineButton" Style="{StaticResource MainPanelButton}"
-            Text="Examine Wine"/>
-    <Button x:Name="ReviewedWineButton" Style="{StaticResource MainPanelButton}"
-            Text="Reviewed"/>
-    <Button x:Name="PendingWineButton" Style="{StaticResource MainPanelButton}"
-            Text="Pending Reviews"/>
-    <Button x:Name="YourProfileButton" Style="{StaticResource MainPanelButton}"
-            Text="Your Profile"/>
-    <Button x:Name="FriendsButton" Style="{StaticResource MainPanelButton}"
-            Text="Friends"/>
-  </StackLayout>
+    <Button Grid.Row="4" Grid.Column="1"
+            x:Name="ReviewedWineButton" Style="{StaticResource MainPanelButton}"/>
+    <Button Grid.Row="4" Grid.Column="3"
+            x:Name="PendingWineButton" Style="{StaticResource MainPanelButton}"/>
+
+    <Button Grid.Row="5" Grid.Column="0"
+            x:Name="YourProfileButton" Style="{StaticResource MainPanelButton}" />
+    <Button Grid.Row="5" Grid.Column="2"
+            x:Name="ExamineWineButton" Style="{StaticResource MainPanelButton}"/>
+    <Button Grid.Row="5" Grid.Column="4"
+            x:Name="FriendsButton" Style="{StaticResource MainPanelButton}"/>
+  </Grid>
 
 </ContentPage>

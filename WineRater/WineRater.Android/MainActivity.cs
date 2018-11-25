@@ -1,5 +1,4 @@
-﻿using System;
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Plugin.CurrentActivity;
@@ -24,15 +23,15 @@ namespace WineRater.Droid
       base.OnCreate(savedInstanceState);
       global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
+      CheckPermissions();
+      Initialize();
+
       _instance = new App();
       LoadApplication(_instance);
-
-      Initialize();
     }
 
     private void Initialize()
     {
-      CheckPermissions();
       Bootstrap.Initialize(this.ApplicationContext);
     }
 
@@ -40,9 +39,11 @@ namespace WineRater.Droid
     {
       var cameraPermission = Manifest.Permission.Camera;
       var writeStorage = Manifest.Permission.WriteExternalStorage;
+
       if (ActivityCompat.CheckSelfPermission(this, cameraPermission) == Permission.Denied ||
        ActivityCompat.CheckSelfPermission(this, cameraPermission) == Permission.Denied)
       {
+        
         ActivityCompat.RequestPermissions(this, new[] { cameraPermission, writeStorage }, 1);
       }
     }

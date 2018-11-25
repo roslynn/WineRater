@@ -14,11 +14,30 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Resources\MainPageBottleAndGlassImage.png" />
+    <None Remove="Resources\camera_pic.png" />
+    <None Remove="Resources\friends_picture.png" />
+    <None Remove="Resources\mainpagebottleandglassimage.png" />
+    <None Remove="Resources\persona_picture.png" />
+    <None Remove="Resources\persona_picture2.png" />
+    <None Remove="Resources\wine_database_pic.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\mainpagebottleandglassimage.png" />
+    <EmbeddedResource Include="Resources\camera_pic.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\friends_picture.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\mainpagebottleandglassimage.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\persona_picture.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\wine_database_pic.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

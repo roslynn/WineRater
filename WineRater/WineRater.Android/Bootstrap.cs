@@ -2,6 +2,7 @@
 using Android.Content;
 using Tesseract;
 using Tesseract.Droid;
+using WineRater.CommonTypes;
 
 namespace WineRater.Droid
 {
@@ -11,6 +12,7 @@ namespace WineRater.Droid
     {
       WineRater.Bootstrap.Initialize();// Create Ninject DI Kernel 
       RegisterServices(context); // Tell ASP.NET MVC 3 to use our Ninject DI Container
+      //WineRater.Bootstrap.InjectResources();
     }
 
     private static void RegisterServices(Context context)
@@ -21,6 +23,7 @@ namespace WineRater.Droid
         {
           return new TesseractApi(context, AssetsDeployment.OncePerInitialization);
         });
+        WineRater.Bootstrap.IoC.Bind<ISaveToLocalStorage>().To<SaveToLocalStorage>();
       }
       catch (Exception e)
       {

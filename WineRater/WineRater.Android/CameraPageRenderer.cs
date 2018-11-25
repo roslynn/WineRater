@@ -8,6 +8,8 @@ using WineRater.Examine;
 using WineRater.Droid;
 using Camera = Android.Hardware.Camera;
 using System.IO;
+using WineRater.CommonTypes;
+using Ninject;
 
 ///<summary>
 /// Concept inspired by Antonio Feregrino from the post 
@@ -20,6 +22,7 @@ namespace WineRater.Droid
 {
   public class CameraPageRenderer : PageRenderer, TextureView.ISurfaceTextureListener
   {
+    private ISaveToLocalStorage _saver = WineRater.Bootstrap.IoC.Get<ISaveToLocalStorage>();
     private Camera _camera = null;
     private TextureView _liveView;
     RelativeLayout _mainLayout;
@@ -178,27 +181,9 @@ namespace WineRater.Droid
 
     private void SaveOnDisk(string filename, byte[] imageData)
     {
-      var dir = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryPictures);
-      var pictures = System.IO.Path.Combine(dir.AbsolutePath, "WineRater");
-
       //adding a time stamp time file name to allow saving more than one image... otherwise it overwrites the previous saved image of the same name  
       string name = filename + System.DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".png";
-      string filePath = System.IO.Path.Combine(pictures, name);
-      try
-      {
-        if (!Directory.Exists(pictures))
-          Directory.CreateDirectory(pictures);
-
-        System.IO.File.WriteAllBytes(filePath, imageData);
-        //mediascan adds the saved image into the gallery  
-        //var mediaScanIntent = new Intent(Intent.ActionMediaScannerScanFile);
-        //mediaScanIntent.SetData(Uri.FromFile(new File(filePath)));
-        //Xamarin.Forms.Forms.Context.SendBroadcast(mediaScanIntent);
-      }
-      catch (System.Exception e)
-      {
-        System.Console.WriteLine(e.ToString());
-      }
+      _saver.SaveImageInPicturesFolder(name, imageData);
     }
   }
 }
