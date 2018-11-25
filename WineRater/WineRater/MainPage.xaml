@@ -4,36 +4,41 @@
              xmlns:local="clr-namespace:WineRater;assembly=WineRater"
              x:Class="WineRater.MainPage"
              BackgroundColor="{StaticResource MainPageBackground}">
- 
-  <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="*"/>
-      <ColumnDefinition Width="*"/>
-      <ColumnDefinition Width="*"/>
-      <ColumnDefinition Width="*"/>
-    </Grid.ColumnDefinitions>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="*"/>
-      <RowDefinition Height="*"/>
-      <RowDefinition Height="*"/>
-      <RowDefinition Height="*"/>
-      <RowDefinition Height="*"/>
-    </Grid.RowDefinitions>
 
-    <Image Grid.Row="0" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="5"
-           Source="{local:ImageResource 'WineRater.Resources.mainpagebottleandglassimage.png'}" 
-           WidthRequest="300" HeightRequest="400" Margin="0,50,0,0"/>
-    <Button Grid.Row="4" Grid.Column="1"
-            x:Name="ReviewedWineButton" Style="{StaticResource MainPanelButton}"/>
-    <Button Grid.Row="4" Grid.Column="3"
-            x:Name="PendingWineButton" Style="{StaticResource MainPanelButton}"/>
-
-    <Button Grid.Row="5" Grid.Column="0"
-            x:Name="YourProfileButton" Style="{StaticResource MainPanelButton}" />
-    <Button Grid.Row="5" Grid.Column="2"
-            x:Name="ExamineWineButton" Style="{StaticResource MainPanelButton}"/>
-    <Button Grid.Row="5" Grid.Column="4"
-            x:Name="FriendsButton" Style="{StaticResource MainPanelButton}"/>
-  </Grid>
+  <RelativeLayout>
+    <Button x:Name="ReviewedWineButton" Style="{StaticResource MainPanelButton}"
+            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=0.01,Constant=0}"
+            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0,Constant=0}"
+            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0.2,Constant=0}"
+            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=0.1,Constant=0}"/>
+    <Button x:Name="PendingWineButton" Style="{StaticResource MainPanelButton}"
+            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=0.01,Constant=0}"
+            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0.8,Constant=0}"
+            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0.2,Constant=0}"
+            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=0.1,Constant=0}"/>
+    
+    <Image x:Name="MainPageImage"
+           Source="{local:ImageResource 'WineRater.Resources.bartender.jpg'}" 
+           RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=0.21,Constant=0}"
+           RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0,Constant=0}"
+           RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=1,Constant=0}"
+           RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=.58,Constant=0}"/>
+    
+    <Button x:Name="YourProfileButton" Style="{StaticResource MainPanelButton}"
+            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=0.83,Constant=0}"
+            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0,Constant=0}"
+            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0.2,Constant=0}"
+            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=0.1,Constant=0}"/>
+    <Button x:Name="ExamineWineButton" Style="{StaticResource MainPanelButton}"
+            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=0.88,Constant=0}"
+            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0.35,Constant=0}"
+            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0.3,Constant=0}"
+            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=0.1,Constant=0}"/>
+    <Button x:Name="FriendsButton" Style="{StaticResource MainPanelButton}"
+            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=0.83,Constant=0}"
+            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0.8,Constant=0}"
+            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width,Factor=0.2,Constant=0}"
+            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height,Factor=0.1,Constant=0}"/>
+  </RelativeLayout>
 
 </ContentPage>

@@ -10,9 +10,10 @@
   </Style>
 
   <Style x:Key="MainPanelButton" TargetType="Button">
+    <Setter Property="BorderColor" Value="{StaticResource MainPageButtonBackgroundNormal}"/>
+    <Setter Property="BorderWidth" Value="2"/>
     <Setter Property="BackgroundColor" Value="{StaticResource MainPageButtonBackgroundNormal}"/>
     <Setter Property="TextColor" Value="{StaticResource ButtonTextNormal}"/>
-    <Setter Property="Margin" Value="5,0,5,0"/>
     <Setter Property="CornerRadius" Value="35"/>
   </Style>
   

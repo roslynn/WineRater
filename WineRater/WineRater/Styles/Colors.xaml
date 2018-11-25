@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
-  <Color x:Key="MainPageBackground">#75410C</Color>
-  <Color x:Key="MainPageButtonBackgroundNormal">#FF8800</Color>
+  <Color x:Key="MainPageBackground">#FF8800</Color>
+  <Color x:Key="MainPageButtonBackgroundNormal">#FFAA56</Color>
+  <Color x:Key="MainPageButtonBorderBackgroundNormal">#FF8800</Color>
   
   <Color x:Key="ButtonNormal">#FF8800</Color>
   <Color x:Key="ButtonPressed">#E87B00</Color>

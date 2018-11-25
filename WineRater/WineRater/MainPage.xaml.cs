@@ -49,7 +49,7 @@ namespace WineRater
       var picPath = Path.Combine(_fileSave.DocumentsFolder, Bootstrap.Temp_File_Name);
 
       ReviewedWineButton.Image =/* Path.Combine(picPath,  @"WineRater.Resources.*/"wine_database_pic.png";
-      PendingWineButton.Image = /*  Path.Combine(picPath, @"WineRater.Resources.*/"wine_database_pic.png";
+      PendingWineButton.Image = /*  Path.Combine(picPath, @"WineRater.Resources.*/"wine_to_review.png";
       YourProfileButton.Image = /*  Path.Combine(picPath, @"WineRater.Resources.*/"persona_picture.png";
       ExamineWineButton.Image = /*  Path.Combine(picPath, @"WineRater.Resources.*/"camera_pic.png";
       FriendsButton.Image =     /* Path.Combine(picPath,  @"WineRater.Resources.*/"friends_picture.png";

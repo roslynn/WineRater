@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\bartender.jpg" />
     <None Remove="Resources\camera_pic.png" />
     <None Remove="Resources\friends_picture.png" />
     <None Remove="Resources\mainpagebottleandglassimage.png" />
@@ -23,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\bartender.jpg" />
     <EmbeddedResource Include="Resources\camera_pic.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>

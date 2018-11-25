@@ -11,7 +11,7 @@ namespace WineRater.Droid
     public static void Initialize(Context context)
     {
       WineRater.Bootstrap.Initialize();// Create Ninject DI Kernel 
-      RegisterServices(context); // Tell ASP.NET MVC 3 to use our Ninject DI Container
+      RegisterServices(context);
       //WineRater.Bootstrap.InjectResources();
     }
 
